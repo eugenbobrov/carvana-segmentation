@@ -11,12 +11,12 @@ Cars are scaled in 4 times for width and height from 1280x1918 to 320x480 resolu
 ![car1](data/car1.png)
 ![car2](data/car2.png)
 
-Network was trained by NVIDIA Tesla K80 with 12gb video memory. Tesla was rented on [floydhub](https://www.floydhub.com/) server. Optimization algorithm uses Adam background. As loss function is implemented bce dice loss. It just divided by two [binary cross entropy](https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro) with substracted [dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient). Model is trained 5 epochs about 2 hours, seen 25440 images and has close to one accuracy. It achieves 0.993 accuracy, -0.983 bce loss (-1 is ideal) and 0.988 dice coefficient. Implementation has the important technical detail, that images upload as batch at runtime from hard drive for each stochastic gradien descent calculation. It's great to save main memory and there is no loss of speed becouse of CPU and GPU are working in parallel.
+Network was trained by NVIDIA Tesla K80 with 12gb video memory. Tesla was rented on [floydhub](https://www.floydhub.com/) server. Optimization algorithm uses Adam background. As loss function is implemented bce dice loss. It just divided by two [binary cross entropy](https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro) with substracted [dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient). Model is trained 5 epochs about 2 hours, seen 25440 images and has close to one accuracy. It achieves 0.993 accuracy, -0.983 bce loss (-1 is ideal rate) and 0.988 dice coefficient. With more epochs optimization often crushes. Implementation has the important technical detail, that images upload as batch at runtime from hard drive for each stochastic gradien descent calculation. It's great to save main memory and there is no loss of speed becouse of CPU and GPU are working in parallel.
 
 ![accuracy](data/accuracy.png) 
 ![loss](data/loss.png)
 
-Test sample has 100064 images of 6254 cars. Here you may see results of the work. All test cars will be rendered several days by my VAIO. I'll write about it later. The leader of competition now has 0.997 dice coefficient.
+Test sample has 100064 images of 6254 cars. Here you may see results of the work. All test cars will be rendered several days by my VAIO. I'll submit predictions on Kaggle and write about it later. The leader of competition now has 0.997 dice coefficient.
 
 ![test_car](data/test_car.png)
 ![masked_car](data/masked_car.png)

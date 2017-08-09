@@ -7,8 +7,8 @@ from keras.losses import binary_crossentropy
 from keras import backend as K
 from skimage.transform import downscale_local_mean
 from skimage.io import imread_collection
-from parameter import (height, width, path_in, path_out,
-                       train_size, batch_size, scale)
+from parameters import (height, width, path_in, path_out,
+                        train_size, batch_size, scale)
 
 
 def dice_coef(T, P):

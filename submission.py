@@ -4,7 +4,7 @@ import numpy as np
 from skimage.transform import resize
 from skimage.morphology import binary_closing
 from inference import get_unet, predict_masks
-from parameter import (raw_height, raw_width, path_in,
+from parameters import (raw_height, raw_width, path_in,
                        path_out, batch_size, test_size)
 
 

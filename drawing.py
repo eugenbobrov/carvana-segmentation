@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from skimage.io import imread, imsave
 from skimage.transform import resize
 from skimage.morphology import binary_closing
-from parameter import path_in, path_out, raw_height, raw_width
+from parameters import path_in, path_out, raw_height, raw_width
 from inference import get_unet, predict_masks
 
 
@@ -87,6 +87,6 @@ def plot_model_history():
     plt.savefig(path_out + 'dice.png')
 
 
-#if __name__ == '__main__':
-#    create_random_test_masks()
-#    draw_random_car()
+if __name__ == '__main__':
+    create_random_test_masks()
+    draw_random_car()

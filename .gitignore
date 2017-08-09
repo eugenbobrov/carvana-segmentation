@@ -1,4 +1,5 @@
 data_all
+raw
 __pycache__
 .floydignore
 .floydexpt

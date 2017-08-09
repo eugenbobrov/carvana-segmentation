@@ -18,7 +18,7 @@ Network was trained by NVIDIA Tesla K80 with 12gb video memory. Tesla was rented
 
 Test sample has 100064 images of 6254 cars. Here you may see results of the work. All test cars will be rendered several days by my VAIO. I'll submit predictions on Kaggle and write about it later. The leader of competition now has 0.997 dice coefficient.
 
-![test_car](data/test_car.png)
-![masked_car](data/masked_car.png)
+![car3](data/car3.png)
+![car4](data/car4.png)
 
 ![test](data/test.jpg)	

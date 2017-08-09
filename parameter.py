@@ -1,8 +1,8 @@
-#/input/ /output/ data/
-path_in = 'data_all/'
-path_out = 'data_all/'
-train_size = 5088
-test_size = 100064
+#/input/ /output/ data_all/
+path_in = 'data/'
+path_out = 'data/'
+train_size = 32 #5088
+test_size = 32 #100064
 raw_height = 1280
 raw_width = 1918
 height = 320

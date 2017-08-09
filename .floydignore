@@ -1,0 +1,5 @@
+
+# Directories and files to ignore when uploading code to floyd
+
+data
+data_all

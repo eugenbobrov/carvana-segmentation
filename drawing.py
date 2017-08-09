@@ -30,6 +30,7 @@ def create_random_test_masks():
     if not os.path.exists(path):
         os.mkdir(path)
     path += name + '_'
+
     for j, mask in enumerate(masks):
         mask = binary_closing(mask)
         mask = resize(mask, (raw_height, raw_width), mode='constant')

@@ -1,12 +1,12 @@
 Just small cnn machine vision project
 =================================
-Challenge to develop an algorithm that automatically removes the photo studio background on [Carvana](https://www.kaggle.com/c/carvana-image-masking-challenge) Kaggle competition. It uses the original convolutional network [U-Net](https://arxiv.org/abs/1505.04597) with some image preprocessing. And in general, it works.
+Challenge to develop an algorithm that automatically removes the photo studio background on [Carvana](https://www.kaggle.com/c/carvana-image-masking-challenge) Kaggle competition. It uses the original convolutional network [U-Net](https://arxiv.org/abs/1505.04597) with some images preprocessing. And in general, it works.
 
 We have 5088 images, 318 cars with 16 views each, and its labeled masks.
 
 ![train](data/train.jpg)
 
-Cars are scaled in 4 times for width and height from 1280x1918 to 320x480 resolution. Color channels are averaged to one gray channel. It allows to use 4 * 4 * 3 = 48 times more GPU memory at model training. Of course, we lose a little bit of quality when rescale trained masks back to 1280x1918, but get much more improvement in the network inference. Experiments shows, that grayscale images gain more quality than color. I think, it's becouse used in three times more convolutional layers with the same memory. Images are standartized to normal distribution with zero mean and equal to one variation.
+Cars images are scaled in 4 times for width and height from 1280x1918 to 320x480 resolution. Color channels are averaged to one gray channel. It allows to use 4 * 4 * 3 = 48 times more GPU memory at model training. Of course, we lose a little bit of quality when rescale trained masks back to 1280x1918, but get much more improvement in the network inference. Experiments shows, that grayscale images gain more quality than colors. I think, it's becouse used in three times more convolutional layers with the same memory. Images are standartized to normal distribution with zero mean and equal to one variation.
 
 ![car1](data/car1.png)
 ![car2](data/car2.png)
@@ -16,7 +16,7 @@ Network was trained by NVIDIA Tesla K80 with 12gb video memory. Tesla was rented
 ![accuracy](data/accuracy.png) 
 ![loss](data/loss.png)
 
-Test sample has 100064 images of 6254 cars. Here you may see results of the work. All test cars will be rendered several days by my VAIO. I'll submit predictions on Kaggle and write about it later. The leader of competition now has 0.997 dice coefficient.
+Test sample has 100064 images of 6254 cars. Here you may see results of the work. All test cars will be rendered several days by my VAIO. I'll submit predictions on Kaggle and write about it later. The leader of competition now has got 0.997 dice coefficient.
 
 ![car3](data/car3.png)
 ![car4](data/car4.png)

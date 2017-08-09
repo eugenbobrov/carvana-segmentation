@@ -20,8 +20,6 @@ def rle(img):
 
 def make_submission():
     names = set([s.split('_')[0] for s in os.listdir(path_in + 'test')])
-    names = list(names)[:2]
-
     model = get_unet()
     model.load_weights(path_in + 'unet.h5')
 

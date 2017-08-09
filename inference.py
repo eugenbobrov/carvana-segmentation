@@ -103,7 +103,6 @@ def predict_masks(name, model):
     test = downscale_local_mean(test, (1, scale, scale, 3))
     test -= test.mean()
     test /= test.std()
-
     masks = model.predict(test, batch_size=8, verbose=1) > 0.5
     return masks[:, :, :, 0]
 

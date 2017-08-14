@@ -44,7 +44,7 @@ Experiments
 
 Decision
 ========
-> In the end it was decided to implement unet with adam and grayscale images. It achieves 0.993/ accuracy, 0.016/ bce loss and 0.988/ dice coefficient on train/valid. 
+> In the end it was decided to implement unet with adam and grayscale images. It achieves 0.993/0.993 accuracy, 0.016/0.017 bce loss and 0.988/0.989 dice coefficient on train/valid. 
 
 ![accuracy](experiments/final_loss.png) 
 ![loss](experiments/final_accuracy.png)

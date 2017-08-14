@@ -40,16 +40,21 @@ def data_generator(dir_name, data_size):
         yield data, masks
 
 
-def network_learning():
+def network_learning(valid=True):
     model = unet()
     model.compile('adam', bce_dice_loss, ['accuracy', dice_coef])
-    history = model.fit_generator(epochs=5,
-        generator=data_generator('train', train_size),
-        steps_per_epoch=train_size//batch_size,
-        validation_data=data_generator('valid', valid_size),
-        validation_steps=valid_size//batch_size)
+    if valid:
+        history = model.fit_generator(epochs=5,
+            generator=data_generator('train', train_size),
+            steps_per_epoch=train_size//batch_size,
+            validation_data=data_generator('valid', valid_size),
+            validation_steps=valid_size//batch_size)
+    else:
+        history = model.fit_generator(epochs=5,
+            generator=data_generator('train', train_size),
+            steps_per_epoch=train_size//batch_size)
+        model.save_weights(path_out +'cnn.h5')
     np.save(path_out + 'history.npy', history.history)
-    model.save_weights(path_out +'unet.h5')
 
 
 def network_predict(car_name, model):
@@ -64,4 +69,4 @@ def network_predict(car_name, model):
 
 
 if __name__ == '__main__':
-    network_learning()
+    network_learning(valid=False)

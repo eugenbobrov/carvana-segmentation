@@ -23,7 +23,7 @@ def rle(img):
 def make_submission():
     car_names = set([s.split('_')[0] for s in os.listdir(path_in + 'test')])
     model = unet()
-    model.load_weights(path_in + 'unet.h5')
+    model.load_weights(path_in + 'cnn.h5')
 
     submission = list(['img,rle_mask'])
     for j, car_name in enumerate(car_names):

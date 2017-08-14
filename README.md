@@ -19,14 +19,17 @@ Experiments
 > As loss function bce dice loss is implemented. It is just divided by two [binary cross entropy](https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro) with subtracted [dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient). This is worked well on last competition of [ultrasound nerve segmengtation](https://www.kaggle.com/c/ultrasound-nerve-segmentation). Cross entropy is a theoretically proved loss: it is maximum likelihood for bernoulli distribution, which we have in our binary segmentation task. Next, dice coefficient, is a competition metric, which we can include in our loss for better competition solution.
 
 > As optimization algorithm was taken is taken adam. Other algorithms like sgd converged too slow, either didn't converged at all (like adagrad).
+
 ![sgd](experiments/optimizer_train_loss.png)
 ![adam](experiments/optimizer_valid_loss.png)
 
-> As was said, grayscales are prefered then colors. It is not obvious, however at first 4 epochs grayscales show better result. Furthermore, optimization of color crushes after 4 epoch. Was trying decay learning rate, but convergence becoming really slow, and there is no guarantee, that will be better.
+> As was said, grayscales are preferred then colors. It is not obvious, however at first 4 epochs grayscales show better result. Furthermore, optimization of color crushes after 4 epoch. Was trying decay learning rate, but convergence becoming really slow, and there is no guarantee, that will be better.
+
 ![colors](experiments/color_train_loss.png)
 ![colors](experiments/color_valid_loss.png)
 
-> Further, I was choosing beetween segnet and unet architecture. And trying to implement dropout layers in unet after input and convolution layers. Experiments show, that unet without dropout is best for the task. There is a simple explanation: unet is just modified segnet, where, in general, convolutional layers in addition to direct connection are concatenated symmetrically. This enables to provide more information, without adding new parameters, which can overfit model. Next, dropout layers are not always a good thing for fully convolutuinal, in comparison to fully connected. Becouse of the first have much less parameters to drop, and kernel weights compute over all image and have strong correlation. The exclusion of some can degrade the quality. Also, unet has trainable upsample layers. In original segnet images are upsampled by bilinear interpolation.
+> Further, I was choosing between segnet and unet architecture. And trying to implement dropout layers in unet after input and convolution layers. Experiments show, that unet without dropout is best for the task. There is a simple explanation: unet is just modified segnet, where, in general, convolutional layers in addition to direct connection are concatenated symmetrically. This enables to provide more information, without adding new parameters, which can overfit model. Next, dropout layers are not always a good thing for fully convolutional, in comparison to fully connected. Because of the first have much less parameters to drop, and kernel weights compute over all image and have strong correlation. The exclusion of some can degrade the quality. Also, unet has trainable upsample layers. In original segnet images are upsampled by bilinear interpolation.
+
 ![segnetimage](experiments/segnetimage.png)
 ![unetimage](experiments/unetimage.png)
 
@@ -37,8 +40,8 @@ Decision
 ========
 > In the end it was decided to implement unet with adam and grayscale images. It achieves 0.993/ accuracy, 0.016/ bce loss and 0.988/ dice coefficient on train/valid. 
 
-![accuracy](experiments/accuracy_gray_adam_unet.png) 
-![loss](experiment/loss_gray_adam_unet.png)
+![accuracy](experiments/final_loss.png) 
+![loss](experiment/final_accuracy.png)
 
 > Test sample has 100064 images of 6254 cars. Here you may see results of the work. All test cars will be rendered several days by my VAIO. I'll submit predictions on Kaggle and write about it later. The leader of competition now has got 0.997 dice coefficient.
 

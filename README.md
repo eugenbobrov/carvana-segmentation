@@ -3,8 +3,8 @@ Just small cnn machine vision project
 
 ![mini](data/mini.png)
 
-Statement
-=========
+Statements
+==========
 
 > Challenge to develop an algorithm, that automatically removes the photo studio background on [Carvana](https://www.kaggle.com/c/carvana-image-masking-challenge) Kaggle competition. It uses the original convolutional network [U-Net](https://arxiv.org/abs/1505.04597) with some images preprocessing. And in general, it works.
 
@@ -42,8 +42,8 @@ Experiments
 ![architecture_train_loss](experiments/architecture_train_loss.png)
 ![architecture_valid_loss](experiments/architecture_valid_loss.png)
 
-Decision
-========
+Decisions
+=========
 > In the end it was decided to implement unet with adam and grayscale images. It achieves 0.993/0.993 accuracy, 0.016/0.017 bce loss and 0.988/0.989 dice coefficient on train/valid. 
 
 ![accuracy](experiments/final_loss.png) 

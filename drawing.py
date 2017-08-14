@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import numpy as np
 import numpy.random as npr
@@ -6,7 +7,8 @@ from skimage.io import imread, imsave
 from skimage.transform import resize
 from skimage.morphology import binary_closing
 from parameters import path_in, path_out, raw_height, raw_width
-from inference import get_unet, predict_masks
+from inference import network_predict
+from networks import unet
 
 
 def image_open(mask, car_id, idx, dir_name):
@@ -20,16 +22,16 @@ def image_open(mask, car_id, idx, dir_name):
 
 
 def create_random_test_masks():
-    name = npr.choice(os.listdir(path_in + 'test')).split('_')[0]
+    car_name = npr.choice(os.listdir(path_in + 'test')).split('_')[0]
 
-    model = get_unet()
+    model = unet()
     model.load_weights(path_in + 'unet.h5')
-    masks = predict_masks(name, model)
+    masks = network_predict(car_name, model)
 
     path = path_out + 'test_masks/'
     if not os.path.exists(path):
         os.mkdir(path)
-    path += name + '_'
+    path += car_name + '_'
 
     for j, mask in enumerate(masks):
         mask = binary_closing(mask)
@@ -64,30 +66,28 @@ def draw_random_car(dir_name='test'):
 
 
 def plot_model_history():
-    loss = np.load(path_in + 'loss.npy')
-    dice = np.load(path_in + 'dice.npy')
-    accuracy = np.load(path_in + 'accuracy.npy')
+    history = np.load(path_in + 'history.npy').tolist()
     plt.style.use('ggplot')
+
     plt.figure()
-    plt.plot(accuracy)
-    plt.title('model train accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
+    plt.plot(history['acc']); plt.plot(history['val_acc'])
+    plt.title('model accuracy'); plt.legend(['train', 'valid'])
+    plt.ylabel('accuracy'); plt.xlabel('epoch')
     plt.savefig(path_out + 'accuracy.png')
+
     plt.figure()
-    plt.plot(loss)
-    plt.title('model train loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
+    plt.plot(history['loss']); plt.plot(history['val_loss'])
+    plt.title('model loss'); plt.legend(['train', 'valid'])
+    plt.ylabel('loss'); plt.xlabel('epoch')
     plt.savefig(path_out + 'loss.png')
+
     plt.figure()
-    plt.plot(dice)
-    plt.title('model train dice')
-    plt.ylabel('dice')
-    plt.xlabel('epoch')
+    plt.plot(history['dice_coef']); plt.plot(history['val_dice_coef'])
+    plt.title('model dice'); plt.legend(['train', 'valid'])
+    plt.ylabel('dice'); plt.xlabel('epoch')
     plt.savefig(path_out + 'dice.png')
 
 
-if __name__ == '__main__':
-    create_random_test_masks()
-    draw_random_car()
+#if __name__ == '__main__':
+#    create_random_test_masks()
+#    draw_random_car()

@@ -1,6 +1,5 @@
 data_all
 raw
-experiments
 __pycache__
 .floydignore
 .floydexpt

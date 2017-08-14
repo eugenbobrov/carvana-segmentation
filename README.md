@@ -24,7 +24,7 @@ Experiments
 
 > As loss function bce dice loss is implemented. It is just divided by two [binary cross entropy](https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro) with subtracted [dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient). This is worked well on last competition of [ultrasound nerve segmengtation](https://www.kaggle.com/c/ultrasound-nerve-segmentation). Cross entropy is a theoretically proved loss: it is maximum likelihood for bernoulli distribution, which we have in our binary segmentation task. Next, dice coefficient, is a competition metric, which we can include in our loss for better competition solution.
 
-> As optimization algorithm was taken is taken "adam". Other algorithms like simple sgd were converged too slow, either didn't converged at all (like "adagrad").
+> As optimization algorithm was taken adam. Other algorithms like simple sgd were converged too slow, either didn't converged at all (like adagrad).
 
 ![sgd](experiments/optimizer_train_loss.png)
 ![adam](experiments/optimizer_valid_loss.png)

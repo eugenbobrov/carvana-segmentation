@@ -5,7 +5,7 @@ import numpy as np
 from skimage.transform import resize
 from skimage.morphology import binary_closing
 from inference import network_predict
-from unet import unet
+from networks import unet
 from parameters import (raw_height, raw_width, path_in,
                        path_out, batch_size, test_size)
 
@@ -23,7 +23,7 @@ def rle(img):
 def make_submission():
     car_names = set([s.split('_')[0] for s in os.listdir(path_in + 'test')])
     model = unet()
-    model.load_weights(path_in + 'cnn.h5')
+    model.load_weights('weights.h5')
 
     submission = list(['img,rle_mask'])
     for j, car_name in enumerate(car_names):

@@ -32,28 +32,22 @@ def data_generator(dir_name, data_size):
         masks = imread_collection(paths).concatenate()
 
         data = downscale_local_mean(data, (1, scale, scale, 3))
-        data -= data.mean()
-        data /= data.std()
+        data -= data.mean(); data /= data.std()
 
         masks = downscale_local_mean(masks, (1, scale, scale))/255
         masks = masks[:, :, :, None]
         yield data, masks
 
 
-def network_learning(valid=True):
+def network_learning():
     model = unet()
     model.compile('adam', bce_dice_loss, ['accuracy', dice_coef])
-    if valid:
-        history = model.fit_generator(epochs=5,
-            generator=data_generator('train', train_size),
-            steps_per_epoch=train_size//batch_size,
-            validation_data=data_generator('valid', valid_size),
-            validation_steps=valid_size//batch_size)
-    else:
-        history = model.fit_generator(epochs=5,
-            generator=data_generator('train', train_size),
-            steps_per_epoch=train_size//batch_size)
-        model.save_weights(path_out +'cnn.h5')
+    history = model.fit_generator(epochs=5,
+        generator=data_generator('train', train_size),
+        steps_per_epoch=train_size//batch_size,
+        validation_data=data_generator('valid', valid_size),
+        validation_steps=valid_size//batch_size)
+    model.save_weights(path_out +'weights.h5')
     np.save(path_out + 'history.npy', history.history)
 
 
@@ -61,12 +55,11 @@ def network_predict(car_name, model):
     paths = path_in + 'test/' + car_name + '_'
     paths = [paths + str(j + 1).zfill(2) + '.jpg' for j in range(16)]
     test = imread_collection(paths).concatenate()
-    test = downscale_local_mean(test, (1, scale, scale, 1))
-    test -= test.mean()
-    test /= test.std()
+    test = downscale_local_mean(test, (1, scale, scale, 3))
+    test -= test.mean(); test /= test.std()
     masks = model.predict(test, batch_size=8, verbose=1) > 0.5
     return masks[:, :, :, 0]
 
 
 if __name__ == '__main__':
-    network_learning(valid=False)
+    network_learning()

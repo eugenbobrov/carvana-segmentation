@@ -25,7 +25,7 @@ def create_random_test_masks():
     car_name = npr.choice(os.listdir(path_in + 'test')).split('_')[0]
 
     model = unet()
-    model.load_weights(path_in + 'cnn.h5')
+    model.load_weights('weights.h5')
     masks = network_predict(car_name, model)
 
     path = path_out + 'test_masks/'

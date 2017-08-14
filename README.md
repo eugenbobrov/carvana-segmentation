@@ -3,6 +3,9 @@ Just small cnn machine vision project
 
 ![mini](data/mini.png)
 
+Statement
+=========
+
 > Challenge to develop an algorithm, that automatically removes the photo studio background on [Carvana](https://www.kaggle.com/c/carvana-image-masking-challenge) Kaggle competition. It uses the original convolutional network [U-Net](https://arxiv.org/abs/1505.04597) with some images preprocessing. And in general, it works.
 
 > We have 5088 images, 318 cars with 16 views each, and its labeled masks.

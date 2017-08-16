@@ -46,7 +46,7 @@ In progress
 ===========
 > It will be good to experiment with convolutional [strides](http://deeplearning.net/software/theano/tutorial/conv_arithmetic.html) instead of classical max-polling. The model should be much faster, but I'm not sure, that will not lose in quality due to noise. Also, it worth to try scaling full sized images by neuralnetwork itself, instead of scaling their before training and rescaling after predict.
 
-![nostrides](same_padding_no_strides_transposed.gif)
+![nostrides](data/same_padding_no_strides_transposed.gif)
 ![strides](data/padding_strides.gif)
 
 > One car in train and test sample is represented in 16 rotation views. Thus, we have a simple time series. I've been thinking how to use it, because when training model, we can't use this information. Convolutional network should be trained stochastic to avoid overfitting. But recently I find the [kernel](https://www.kaggle.com/alekseit/simple-bounding-boxes) on Kaggle. Main idea, that we can differentiate time series and find segmentation box without any machine learning. It's cool preprocessing. Author wrote, "It allowed me to get to the top 5. I save the bounding boxes for train and test, and then crop on the fly. When making a prediction, I do it for the cropped mask, and then just append zeros so, that it matches the original image size."

@@ -2,6 +2,8 @@ data_all
 raw
 experiments/Untitled.ipynb
 experiments/.ipynb_checkpoints
+Untitled.ipynb
+.ipynb_checkpoints
 __pycache__
 .floydignore
 .floydexpt

@@ -42,8 +42,21 @@ Experiments
 ![architecture_train_loss](experiments/architecture_train_loss.png)
 ![architecture_valid_loss](experiments/architecture_valid_loss.png)
 
-Decisions
-=========
+In progress
+===========
+> It will be good to experiment with convolutional strides instead of classical max-polling. The model should be much faster, but I'm not sure, that will not lose in quality due to noise. Also, it worth to try scaling full sized images by neuralnetwork itself, instead of scaling their before training and rescaling after predict.
+
+![strides](data/padding_strides.gif)
+
+> One car in train and test sample is represented in 16 rotation views. Thus, we have a simple time series. I've been thinking how to use it, because when training model, we can't use this information. Convolutional network should be trained stochastic to avoid overfitting. But recently I find the [kernel](https://www.kaggle.com/alekseit/simple-bounding-boxes) on Kaggle. Main idea, that we can differentiate time series and find segmentation box without any machine learning. It's cool preprocessing. Author wrote, "It allowed me to get to the top 5. I save the bounding boxes for train and test, and then crop on the fly. When making a prediction, I do it for the cropped mask, and then just append zeros so, that it matches the original image size."
+
+![curnext](data/curnext.png)
+![diff](data/diff.png)
+![box](data/box.png)
+![crop](data/crop.png)
+
+Decision
+========
 > In the end it was decided to implement unet with adam and grayscale images. It achieves 0.993/0.993 accuracy, 0.016/0.017 bce loss and 0.988/0.989 dice coefficient on train/valid. 
 
 ![accuracy](experiments/final_loss.png) 

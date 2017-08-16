@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-path_in = '/input/'
-path_out = '/output/'
-train_size = 5088#4320
+path_in = 'data_all/'
+path_out = 'data_all/'
+train_size = 4320
 valid_size = 768
 test_size = 100064
 raw_height = 1280

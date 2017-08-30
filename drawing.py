@@ -5,10 +5,9 @@ import numpy.random as npr
 import matplotlib.pyplot as plt
 from skimage.io import imread, imsave
 from skimage.transform import resize
-from skimage.morphology import binary_closing
-from parameters import path_in, path_out, raw_height, raw_width
-from inference import network_predict
+from parameters import path_in, path_out
 from networks import unet
+from inference import network_predict
 
 
 def image_open(mask, car_id, idx, dir_name):
@@ -22,21 +21,21 @@ def image_open(mask, car_id, idx, dir_name):
 
 
 def create_random_test_masks():
-    car_name = npr.choice(os.listdir(path_in + 'test')).split('_')[0]
+    name = npr.choice(os.listdir(path_in + 'test')).split('_')[0]
+
+    path = path_out + 'test_masks'
+    if not os.path.exists(path):
+        os.mkdir(path)
+    path += '/' + name + '_'
 
     model = unet()
     model.load_weights('weights.h5')
-    masks = network_predict(car_name, model)
 
-    path = path_out + 'test_masks/'
-    if not os.path.exists(path):
-        os.mkdir(path)
-    path += car_name + '_'
-
-    for j, mask in enumerate(masks):
-        mask = binary_closing(mask)
-        mask = resize(mask, (raw_height, raw_width), mode='constant')
-        imsave(path + str(j + 1).zfill(2) + '_mask.gif', mask)
+    for j in range(1, 17):
+        data_path = path_in + 'test/' + name + '_{:0>2}.jpg'.format(j)
+        rois_path = path_in + 'test_rois/' + name + '_{:0>2}.npy'.format(j)
+        mask = network_predict(data_path, rois_path, model)
+        imsave(path + str(j).zfill(2) + '_mask.gif', mask*255)
 
 
 def draw_random_car_rotation(dir_name='test'):
@@ -48,7 +47,7 @@ def draw_random_car_rotation(dir_name='test'):
         for x in range(j, j + 4)])
         for f, j in zip((False, True)*4, np.repeat((1, 5, 9, 13), 2))])
 
-    car_img = resize(car_img, (raw_width, raw_height), mode='constant')
+    car_img = resize(car_img, np.array(car_img.shape[:2])/4, mode='constant')
     imsave(path_out + dir_name + '.jpg', car_img)
 
 
@@ -70,12 +69,6 @@ def plot_model_history():
     plt.style.use('ggplot')
 
     plt.figure()
-    plt.plot(history['acc']); plt.plot(history['val_acc'])
-    plt.title('model accuracy'); plt.legend(['train', 'valid'])
-    plt.ylabel('accuracy'); plt.xlabel('epoch')
-    plt.savefig(path_out + 'accuracy.png')
-
-    plt.figure()
     plt.plot(history['loss']); plt.plot(history['val_loss'])
     plt.title('model loss'); plt.legend(['train', 'valid'])
     plt.ylabel('loss'); plt.xlabel('epoch')
@@ -88,6 +81,5 @@ def plot_model_history():
     plt.savefig(path_out + 'dice.png')
 
 
-#if __name__ == '__main__':
-#    create_random_test_masks()
-#    draw_random_car()
+if __name__ == '__main__':
+    create_random_test_masks()

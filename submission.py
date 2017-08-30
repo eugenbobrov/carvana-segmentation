@@ -2,12 +2,9 @@
 import os
 import time
 import numpy as np
-from skimage.transform import resize
-from skimage.morphology import binary_closing
 from inference import network_predict
-from networks import unet
-from parameters import (raw_height, raw_width, path_in,
-                       path_out, batch_size, test_size)
+from keras.utils import load_model
+from parameters import path_in, path_out, test_size
 
 
 def rle(img):
@@ -21,24 +18,22 @@ def rle(img):
 
 
 def make_submission():
-    car_names = set([s.split('_')[0] for s in os.listdir(path_in + 'test')])
-    model = unet()
-    model.load_weights('weights.h5')
+    data_path = path_in + 'test/'
+    rois_path = path_in + 'test_rois/'
+    data_names = sorted(os.listdir(data_path))
+    rois_names = sorted(os.listdir(rois_path))
 
+    model = load_model('model.h5')
     submission = list(['img,rle_mask'])
-    for j, car_name in enumerate(car_names):
+    for j, data_name, rois_name in enumerate(zip(data_names, rois_names)):
         clock = time.clock()
-        masks = network_predict(car_name, model)
 
-        for k, mask in enumerate(masks):
-            mask = binary_closing(mask)
-            mask = resize(mask, (raw_height, raw_width), mode='constant')
-            mask = mask.ravel().astype('uint8')
-            row = car_name + '_' + str(k + 1).zfill(2) + '.jpg,' + rle(mask)
-            submission.append(row)
+        mask = network_predict(data_path + data_name,
+            rois_path + rois_name, model).ravel().astype('uint8')
+        submission.append(data_name + ',' + rle(mask))
 
         print(time.clock() - clock, 'sec per loop')
-        print('done: {}/{} images'.format((j + 1)*batch_size, test_size))
+        print('done: {}/{} images'.format((j + 1), test_size))
 
     np.savetxt(path_out + 'submission.csv', submission, fmt='%s')
 
